@@ -1,0 +1,8 @@
+<p-card>
+  <span class="icon card-txt">{{ icon() }} {{ title() }}</span>
+
+  <h2 class="font-weight-700">{{ value() }}</h2>
+  <p [style.color]="color()" class="card-label">
+    {{ change() !== '0' ? change() : '' }} {{ changeLabel() }}
+  </p>
+</p-card>
