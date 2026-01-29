@@ -1,0 +1,30 @@
+@use 'colors' as *;
+
+.low {
+  color: $color-green;
+  background-color: $color-beige;
+}
+.high {
+  color: $color-red;
+  background-color: $color-light-red;
+}
+.medium {
+  color: $color-orange;
+  background-color: $color-beige;
+}
+.logo {
+  width: 15px;
+  height: 15px;
+}
+.overdue {
+    border-left: 4px solid $color-red !important;
+    background-color: $color-light-red;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.card-bg
+{
+    background-color:  white;
+    border: transparent;
+
+}

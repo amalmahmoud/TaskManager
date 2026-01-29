@@ -1,0 +1,14 @@
+.column-header {
+    .count-badge {
+        background: #e5e7eb;
+        color: #4b5563;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+}
+
+app-cards-list {
+    display: block;
+    min-height: 500px;
+}

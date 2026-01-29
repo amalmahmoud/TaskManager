@@ -30,6 +30,9 @@
               },
               "src/assets"
             ],
+           "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "styles": [
               "src/styles.scss"
             ]
@@ -88,6 +91,9 @@
                 "input": "public"
               }
             ],
+           "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "styles": [
               "src/styles.scss"
             ]

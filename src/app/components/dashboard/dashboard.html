@@ -1,3 +1,113 @@
-
-
 <app-statistics-card [statistics]="statistics()" />
+
+<div class="mt-4">
+  <p-tabs [value]="currentTabStatus()" (valueChange)="currentTabStatus.set($event)">
+    <p-tablist class="mb-4 mx-3 flex">
+      @for (tab of tabs; track tab.value) {
+        <p-tab [value]="tab.value" class="border-none">
+          <div
+            class="flex align-items-center gap-2 py-2 px-3 border-round text-xs"
+            [class.bg-primary]="currentTabStatus() === tab.value"
+          >
+            <span>{{ tab.label }}</span>
+          </div>
+        </p-tab>
+      }
+      <div class="ml-auto flex align-items-center gap-3">
+        <p-select
+          [options]="priorities"
+          placeholder="Priority"
+          optionLabel="label"
+          optionValue="value"
+          class="w-12rem"
+          appendTo="body"
+          (onChange)="onPriorityFilter($event)"
+          [showClear]="true"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedOption>
+            <div class="flex align-items-center gap-2">
+              <i [class]="selectedOption.icon"></i>
+              <span>{{ selectedOption.label }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+
+        <p-button
+          label="+ New Task"
+          styleClass="py-2 font-semibold text-sm shadow-1 whitespace-nowrap"
+          severity="primary"
+          (click)="taskModal.showDialog()"
+        />
+      </div>
+    </p-tablist>
+
+    <p-tabpanels class="bg-gray-50">
+      @if (getActiveTabTasks().length === 0) {
+        <div class="text-center p-5 text-500">
+          <i class="pi pi-filter-slash text-2xl mb-2"></i>
+          <p>No tasks found for this category or priority.</p>
+        </div>
+      } @else if (currentTabStatus() === 'all') {
+        <div class="grid mt-2 px-3 bg-white border-round">
+          <div class="col-12 md:col-4">
+            <div
+              class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+            >
+              <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2"
+                >To Do</span
+              >
+              <span class="count-badge text-xs">{{ todoTasks().length || 0 }}</span>
+            </div>
+            <app-cards-list
+              [tasks]="todoTasks()"
+              (edit)="taskModal.openEdit($event)"
+              (delete)="confirmDelete($event)"
+            />
+          </div>
+          <div class="col-12 md:col-4">
+            <div
+              class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+            >
+              <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2"
+                >In Progress</span
+              >
+              <span class="count-badge text-xs">{{ inprogressTasks().length || 0 }}</span>
+            </div>
+            <app-cards-list
+              [tasks]="inprogressTasks()"
+              (edit)="taskModal.openEdit($event)"
+              (delete)="confirmDelete($event)"
+            />
+          </div>
+          <div class="col-12 md:col-4">
+            <div
+              class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+            >
+              <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2"
+                >Done</span
+              >
+              <span class="count-badge text-xs">{{ completedTasks().length || 0 }}</span>
+            </div>
+            <app-cards-list
+              [tasks]="completedTasks()"
+              (edit)="taskModal.openEdit($event)"
+              (delete)="confirmDelete($event)"
+            />
+          </div>
+        </div>
+      } @else {
+        <div class="p-3 bg-white border-round">
+          <app-cards-list
+            [tasks]="getActiveTabTasks()"
+            (edit)="taskModal.openEdit($event)"
+            (delete)="confirmDelete($event)"
+          />
+        </div>
+      }
+    </p-tabpanels>
+  </p-tabs>
+</div>
+
+<app-task-form #taskModal (taskSaved)="handleTaskSave($event)" (delete)="confirmDelete($event)" />
+<p-confirmDialog />
+<p-toast />

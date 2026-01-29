@@ -1,0 +1,52 @@
+<div
+  class="status-card mb-2 p-3 border-round-xl shadow-1 border-1 surface-border relative flex flex-column h-full"
+  [ngClass]="task().priority === 'high' && overDue().severity === 'danger' ? 'overdue' : 'card-bg'"
+>
+  <div class="flex justify-content-between align-items-center mb-2 pl-2">
+    <span class="text-xs font-bold px-2 py-1 border-round" [class]="task().priority">
+      {{ task().priority | uppercase }}
+    </span>
+
+    <div>
+      <p-button
+        icon="pi pi-ellipsis-v"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        styleClass="p-0 w-2rem h-2rem"
+        (click)="menu.toggle($event)"
+      />
+      <p-menu #menu [model]="options" [popup]="true" appendTo="body" />
+    </div>
+  </div>
+
+  <div class="flex-1 pl-2 mb-3">
+    <h2 class="text-900 font-bold text-sm mb-1 m-0">{{ task().title }}</h2>
+    <p class="text-500 text-xs line-height-2 m-0 line-clamp-2">{{ task().description }}</p>
+  </div>
+
+  <div class="pl-2 flex flex-column gap-2 border-top-1 surface-border pt-3">
+    <div class="flex align-items-center gap-2 text-xs font-medium">
+      @if (overDue().severity === 'danger' || overDue().severity === 'warning') {
+        <img src="assets/icons/warning.png" class="logo" alt="warninglogo" />
+      } @else if (overDue().severity === 'success') {
+        <img src="assets/icons/check.png" class="logo" alt="completedlogo" />
+      } @else {
+        <img src="assets/icons/calendar.png" class="logo" alt="calendarlogo" />
+      }
+
+      <span>{{ overDue().label }}</span>
+    </div>
+
+    <div class="flex gap-2 flex-wrap">
+      @for (tag of task().tags; track tag) {
+        <span class="text-500 text-xs font-medium">{{ tag }}</span>
+      }
+    </div>
+
+    <div class="flex align-items-center gap-2 mt-1">
+      <p-avatar [label]="task().assignee.avatar" shape="circle" class="bg-primary text-white" />
+      <span class="text-xs text-700 font-medium">@{{ task().assignee.name | firstName }}</span>
+    </div>
+  </div>
+</div>

@@ -20,12 +20,14 @@
     }
     <div class="mt-4">
       <p-button
-        label="New Task"
-        icon="pi pi-plus"
+        label="+ New Task"
         styleClass="w-full py-2 font-semibold text-sm shadow-1"
         severity="primary"
+        (click)="taskModal.showDialog()"
       >
       </p-button>
     </div>
   </div>
 </aside>
+
+<app-task-form #taskModal (taskSaved)="onHandleNewTask($event)" />

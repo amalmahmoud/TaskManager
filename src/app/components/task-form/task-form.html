@@ -1,0 +1,121 @@
+<p-dialog
+  [header]="isEditMode ? 'Edit Task' : 'Create New Task'"
+  [(visible)]="visible"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+  [style]="{ width: '500px' }"
+  draggable="false"
+  resizable="false"
+>
+  <form [formGroup]="taskForm" class="flex flex-column gap-3 mt-2">
+    <div class="flex flex-column gap-2">
+      <label for="title" class="font-semibold">Task Title</label>
+      <input
+        pInputText
+        id="title"
+        formControlName="title"
+        placeholder="e.g. Design System Update"
+        class="w-full"
+      />
+      <app-form-error [control]="taskForm.get('title')" label="Title"></app-form-error>
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <label for="desc" class="font-semibold">Description</label>
+      <textarea
+        pTextarea
+        id="desc"
+        formControlName="description"
+        rows="3"
+        class="w-full"
+        style="resize: none"
+      ></textarea>
+      <app-form-error [control]="taskForm.get('description')" label="Description"></app-form-error>
+    </div>
+
+    <div class="grid">
+      <div class="col-6 flex flex-column gap-2">
+        <label class="font-semibold">Priority</label>
+        <p-select
+          [options]="priorities"
+          formControlName="priority"
+          optionLabel="label"
+          optionValue="value"
+          class="w-full"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedOption>
+            <div class="flex align-items-center gap-2">
+              <i [class]="selectedOption.icon"></i>
+              <div>{{ selectedOption.label }}</div>
+            </div>
+          </ng-template>
+        </p-select>
+        <app-form-error [control]="taskForm.get('priority')" label="Priority"></app-form-error>
+      </div>
+      <div class="col-6 flex flex-column gap-2">
+        <label class="font-semibold">Status</label>
+        <p-select
+          [options]="status"
+          formControlName="status"
+          optionLabel="label"
+          optionValue="value"
+          class="w-full"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedOption>
+            <div class="flex align-items-center gap-2">
+              <i [class]="selectedOption.icon"></i>
+              <div>{{ selectedOption.label }}</div>
+            </div>
+          </ng-template>
+        </p-select>
+        <app-form-error [control]="taskForm.get('status')" label="Status"></app-form-error>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2">
+      <label class="font-semibold">Due Date</label>
+      <p-datepicker
+        formControlName="dueDate"
+        [minDate]="minDate"
+        [showIcon]="true"
+        appendTo="body"
+        class="w-full"
+        [readonlyInput]="true"
+        [inputStyle]="{ width: '100%' }"
+      />
+
+      @if (taskForm.get('dueDate')?.errors?.['pastDate']) {
+        <small class="text-red-500">Due Date cannot be in the past</small>
+      }
+      <app-form-error [control]="taskForm.get('dueDate')" label="Due Date"></app-form-error>
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <label class="font-semibold">Assign To</label>
+      <p-select
+        [options]="assignees"
+        formControlName="assignee"
+        optionLabel="name"
+        placeholder="Select a team member"
+        class="w-full"
+        dataKey="id"
+      >
+        <ng-template pTemplate="item" let-user>
+          <div class="flex align-items-center gap-2">
+            <p-avatar [label]="user.avatar" shape="circle" size="normal" />
+            <span>{{ user.name }}</span>
+          </div>
+        </ng-template>
+      </p-select>
+      <app-form-error [control]="taskForm.get('assignee')" label="Assignee"></app-form-error>
+    </div>
+
+    <div class="flex justify-content-end gap-2 mt-4">
+      <p-button label="Cancel" severity="secondary" [text]="true" (click)="visible = false" />
+      <p-button
+        [label]="isEditMode ? 'Save Changes' : 'Create Task'"
+        (click)="saveTask()"
+        [disabled]="taskForm.invalid"
+      />
+    </div>
+  </form>
+</p-dialog>
