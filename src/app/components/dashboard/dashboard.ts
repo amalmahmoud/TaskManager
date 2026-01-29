@@ -418,7 +418,6 @@ export class DashboardComponent {
       detail: 'Task removed successfully',
     });
   }
-  // dashboard.component.ts
 
 getActiveTabTasks() {
   const status = this.currentTabStatus();
