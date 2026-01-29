@@ -1,21 +1,30 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Task } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   tasksData = signal<any[]>([]);
-
+  searchQuery = signal<string>('');
   selectedPriority = signal<string | null>(null);
 
   filteredTasks = computed(() => {
     const tasks = this.tasksData();
     const priority = this.selectedPriority();
+    const search = this.searchQuery().toLowerCase().trim();
 
-    if (!priority || priority === 'all') {
-      return tasks;
+    let filtered = tasks;
+    if (priority && priority !== 'all') {
+      filtered = filtered.filter((task) => task.priority === priority);
     }
 
-    return tasks.filter((task) => task.priority === priority);
+    if (search) {
+      filtered = filtered.filter(
+        (task) =>
+          task.title.toLowerCase().includes(search) ||
+          task.description.toLowerCase().includes(search),
+      );
+    }
+
+    return filtered;
   });
 
   todoTasks = computed(() => this.filteredTasks().filter((t) => t.status === 'todo'));
@@ -38,9 +47,7 @@ export class TaskService {
 
         if (updatedTask.status === 'todo') {
           updatedTask.completedAt = null;
-        }
-        // Logic: If status is 'completed' and it wasn't before, add timestamp
-        else if (updatedTask.status === 'done' && !updatedTask.completedAt) {
+        } else if (updatedTask.status === 'done' && !updatedTask.completedAt) {
           updatedTask.completedAt = new Date().toISOString();
         }
 

@@ -19,6 +19,7 @@
         pInputText
         placeholder="Search tasks..."
         class="w-20rem md:w-30rem border-round-xl border-gray"
+        (input)="onSearch($event)"
       />
     </p-iconField>
   </div>
