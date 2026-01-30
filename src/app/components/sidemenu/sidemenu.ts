@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { TaskFormComponent } from '../task-form/task-form';
-import { TaskService } from '../../core/services/task.service';
 import { MenuItem, MenuItemModel } from './sidemenu.model';
 import { Task } from '../../core/models/task.model';
+import { TaskService } from '../tasks/task.service';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './sidemenu.html',
@@ -18,7 +18,7 @@ export class SideMenuComponent implements OnInit {
   private taskService = inject(TaskService);
 
   menuItems: MenuItemModel[] = [];
-  activeTab = signal('dashboard');
+  activeTab = signal('tasks');
   ngOnInit() {
     this.menuItems = MenuItem;
   }

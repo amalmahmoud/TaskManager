@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
@@ -8,9 +8,9 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AvatarModule } from 'primeng/avatar';
-import { englishOnlyValidator, futureDateValidator } from '../shared/utilitis/validators-utilitis';
 import { assignees, priorities, status } from '../../core/models/task.model';
-import { FormErrorComponent } from '../shared/components/form-error/form-error';
+import { FormErrorComponent } from '../../shared/components/form-error/form-error';
+import { englishOnlyValidator, futureDateValidator } from '../../shared/utilitis/validators-utilitis';
 
 @Component({
   selector: 'app-task-form',

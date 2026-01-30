@@ -2,11 +2,11 @@ import { Component, computed, input, output, signal } from '@angular/core';
 import { Task } from '../../../core/models/task.model';
 import { CommonModule, UpperCasePipe } from '@angular/common';
 import { Avatar } from 'primeng/avatar';
-import { FirstNamePipe } from '../../shared/pipes/first-name.pipe';
 import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { calculateDueDateStatus, DueDateStatus, SEVERITY_MAP } from '../../shared/utilitis/general-utilitis';
+import { FirstNamePipe } from '../../../shared/pipes/first-name.pipe';
+import { calculateDueDateStatus, SEVERITY_MAP } from '../../../shared/utilitis/general-utilitis';
 
 @Component({
   selector: 'app-status-card',

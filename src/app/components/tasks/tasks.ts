@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { mock, Statistic } from '../shared/components/card/card.model';
 import { StatisticsComponent } from './statistics-cards/statistics-cards';
 import { Tab, TabList, TabPanels, Tabs } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
@@ -9,15 +8,15 @@ import { TaskFormComponent } from '../task-form/task-form';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
-import { TaskService } from '../../core/services/task.service';
 import { Button } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
-import { ProgressSpinner } from 'primeng/progressspinner';
+import { TaskService } from './task.service';
+import { mock, Statistic } from '../../shared/components/card/card.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
+  selector: 'app-tasks',
+  templateUrl: './tasks.html',
+  styleUrl: './tasks.scss',
   standalone: true,
   imports: [
     StatisticsComponent,
@@ -31,12 +30,11 @@ import { ProgressSpinner } from 'primeng/progressspinner';
     ConfirmDialog,
     Toast,
     Button,
-    SelectModule,
-    ProgressSpinner,
+    SelectModule
   ],
   providers: [MessageService, ConfirmationService],
 })
-export class DashboardComponent {
+export class TasksComponent {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   public taskService = inject(TaskService);

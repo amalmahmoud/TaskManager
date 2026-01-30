@@ -12,9 +12,9 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'dashboard',
+        path: 'tasks',
         loadComponent: () =>
-          import('./components/dashboard/dashboard').then((c) => c.DashboardComponent),
+          import('./components/tasks/tasks').then((c) => c.TasksComponent),
       },
     ],
   },

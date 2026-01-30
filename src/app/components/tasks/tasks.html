@@ -51,9 +51,6 @@
     </p-tablist>
 
     <p-tabpanels class="bg-gray-50">
-      @if (taskService.taskData.isLoading()) {
-        <p-progressSpinner />
-      } @else {
         @if (showAll()) {
           @if (taskService.filteredTasks().length === 0) {
             <div class="text-center p-5 text-500">
@@ -109,7 +106,6 @@
             </div>
           }
         }
-      }
     </p-tabpanels>
   </p-tabs>
 </div>

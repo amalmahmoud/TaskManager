@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { CardComponent } from '../../shared/components/card/card';
-import { Statistic } from '../../shared/components/card/card.model';
+import { CardComponent } from '../../../shared/components/card/card';
+import { Statistic } from '../../../shared/components/card/card.model';
 
 @Component({
   selector: 'app-statistics-card',

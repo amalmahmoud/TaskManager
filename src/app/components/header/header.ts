@@ -5,7 +5,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { TaskService } from '../../core/services/task.service';
+import { TaskService } from '../tasks/task.service';
 
 @Component({
   selector: 'app-header',
