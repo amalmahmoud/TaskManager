@@ -10,6 +10,7 @@ import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
+import { provideHttpClient } from '@angular/common/http';
 const MyPreset = definePreset(Aura, {
     semantic: {
         primary: {
@@ -41,5 +42,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+    provideHttpClient()
   ],
 };

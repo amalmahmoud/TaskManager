@@ -1,6 +1,5 @@
 export type TaskPriority = 'high' | 'medium' | 'low';
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
-export type TabValue = TaskStatus | 'all';
 export interface Assignee {
   id: string;
   name: string;
@@ -22,7 +21,10 @@ export interface Task {
   createdAt?: string;
   updatedAt?: string;
 }
-
+export interface TaskResponse {
+  tasks: Task[];
+  meta: any;
+}
 export interface PrioritiesModel {
   label: string;
   value: string;
@@ -44,7 +46,7 @@ export const assignees: Assignee[] = [
 
 export interface StatusModel {
   label: string;
-  value: TabValue;
+  value: TaskStatus;
 }
 export const status: StatusModel[] = [
   {
@@ -62,8 +64,17 @@ export const status: StatusModel[] = [
 ];
 
 export const tabsData: StatusModel[] = [
-  { label: 'All', value: 'all' },
   { label: 'To Do', value: 'todo' },
   { label: 'In Progress', value: 'in_progress' },
   { label: 'Done', value: 'done' },
 ];
+
+ export interface TaskGroups {
+  todo: Task[];
+  in_progress: Task[];
+  done: Task[];
+}
+
+export const tabsLookup: Record<string, StatusModel> = Object.fromEntries(
+  tabsData.map(tab => [tab.value, tab])
+);

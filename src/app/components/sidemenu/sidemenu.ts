@@ -6,12 +6,12 @@ import { MenuModule } from 'primeng/menu';
 import { TaskFormComponent } from '../task-form/task-form';
 import { TaskService } from '../../core/services/task.service';
 import { MenuItem, MenuItemModel } from './sidemenu.model';
+import { Task } from '../../core/models/task.model';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './sidemenu.html',
   standalone: true,
-  imports: [MenuModule,Button,CommonModule,TaskFormComponent
-  ],
+  imports: [MenuModule, Button, CommonModule, TaskFormComponent],
 })
 export class SideMenuComponent implements OnInit {
   private router = inject(Router);
@@ -23,13 +23,21 @@ export class SideMenuComponent implements OnInit {
     this.menuItems = MenuItem;
   }
 
- selectTab(id: string) {
+  selectTab(id: string) {
     this.activeTab.set(id);
     this.router.navigate([`/${id}`]);
   }
-  onHandleNewTask(task:any)
-  {
-    this.taskService.saveTask(task);
-  }
+   handleAddTask(taskData: Task) {
+     console.log(taskData)
+     this.taskService.addNewTask(taskData).subscribe({
+       next: (task) => {
+         console.log('Task added:', task);
+        //  this.notify('success', 'Success', 'Task added successfully');
+       },
+       error: (err) => {
+         console.error('Error adding task:', err);
+        //  this.notify('error', 'Error', 'Task failed to be Added');
+       },
+     });
+   }
 }
-

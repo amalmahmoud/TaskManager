@@ -1,73 +1,48 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { Task, TaskGroups, TaskResponse } from '../models/task.model';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  tasksData = signal<any[]>([]);
+  private http = inject(HttpClient);
+  private readonly apiUrl = '/api/tasks';
+  taskData = httpResource<TaskResponse>(() => this.apiUrl);
   searchQuery = signal<string>('');
   selectedPriority = signal<string | null>(null);
-
   filteredTasks = computed(() => {
-    const tasks = this.tasksData();
-    const priority = this.selectedPriority();
-    const search = this.searchQuery().toLowerCase().trim();
+    const response = this.taskData.value();
+    const allTasks = response?.tasks ?? [];
 
-    let filtered = tasks;
-    if (priority && priority !== 'all') {
-      filtered = filtered.filter((task) => task.priority === priority);
-    }
+    const search = (this.searchQuery() || '').toLowerCase().trim();
+    const priority = this.selectedPriority() || 'all';
 
-    if (search) {
-      filtered = filtered.filter(
-        (task) =>
-          task.title.toLowerCase().includes(search) ||
-          task.description.toLowerCase().includes(search),
-      );
-    }
-
-    return filtered;
+    return allTasks.filter((task: any) => {
+      const matchesSearch = !search || task.title?.toLowerCase().includes(search);
+      const matchesPriority = priority === 'all' || task.priority === priority;
+      return matchesSearch && matchesPriority;
+    });
   });
-
-  todoTasks = computed(() => this.filteredTasks().filter((t) => t.status === 'todo'));
-
-  inprogressTasks = computed(() => this.filteredTasks().filter((t) => t.status === 'in_progress'));
-
-  completedTasks = computed(() => this.filteredTasks().filter((t) => t.status === 'done'));
 
   setPriorityFilter(priority: string | null) {
     this.selectedPriority.set(priority);
   }
-  saveTask(taskData: any) {
-    this.tasksData.update((currentTasks) => {
-      const index = currentTasks.findIndex((t) => t.id === taskData.id);
 
-      if (index !== -1) {
-        const updatedTasks = [...currentTasks];
-
-        const updatedTask = { ...currentTasks[index], ...taskData };
-
-        if (updatedTask.status === 'todo') {
-          updatedTask.completedAt = null;
-        } else if (updatedTask.status === 'done' && !updatedTask.completedAt) {
-          updatedTask.completedAt = new Date().toISOString();
-        }
-
-        updatedTasks[index] = updatedTask;
-        return updatedTasks;
-      } else {
-        const newTask = {
-          ...taskData,
-          id: Date.now(),
-          completedAt: taskData.status === 'done' ? new Date().toISOString() : null,
-        };
-        return [...currentTasks, newTask];
-      }
-    });
+  editTask(taskData: Task) :Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${taskData.id}`, taskData).pipe(
+      tap(() => this.taskData.reload()),
+    );
   }
 
-  deleteTask(id: string) {
-    this.tasksData.update((tasks) => tasks.filter((t) => t.id !== id));
+  addNewTask(newTask: Task): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, newTask).pipe(
+      tap(() => this.taskData.reload()),
+    );
   }
-  priorityFilter(priority: string) {
-    this.tasksData.update((tasks) => tasks.filter((t) => t.priority !== priority));
+
+ deleteTask(id: string): Observable<Task> {
+    return this.http.delete<Task>(`${this.apiUrl}/${id}` ).pipe(
+      tap(() => this.taskData.reload()),
+    );
   }
 }

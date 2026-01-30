@@ -25,7 +25,7 @@ import { FormErrorComponent } from '../shared/components/form-error/form-error';
     SelectModule,
     DatePickerModule,
     AvatarModule,
-    FormErrorComponent
+    FormErrorComponent,
   ],
   templateUrl: './task-form.html',
 })
@@ -34,7 +34,8 @@ export class TaskFormComponent {
   visible: boolean = false;
   taskForm: FormGroup;
   isEditMode: boolean = false;
-  taskSaved = output<any>();
+  taskAdded = output<any>();
+  taskEdited = output<any>();
   editingTaskId: number | null = null;
   minDate: Date = new Date();
   priorities = priorities;
@@ -42,11 +43,11 @@ export class TaskFormComponent {
   status = status;
   constructor(private fb: FormBuilder) {
     this.taskForm = this.fb.group({
-      title: ['', [Validators.required,englishOnlyValidator()]],
-      description: ['',[Validators.maxLength(100),englishOnlyValidator()]],
+      title: ['', [Validators.required, englishOnlyValidator()]],
+      description: ['', [Validators.maxLength(100), englishOnlyValidator()]],
       status: ['', Validators.required],
       priority: ['', Validators.required],
-      dueDate: [null, [Validators.required,futureDateValidator()]],
+      dueDate: [null, [Validators.required, futureDateValidator()]],
       assignee: [null, Validators.required],
     });
     this.minDate.setHours(0, 0, 0, 0);
@@ -59,7 +60,6 @@ export class TaskFormComponent {
     }
   }
 
-
   openEdit(task: any) {
     this.isEditMode = true;
     this.editingTaskId = task.id;
@@ -70,19 +70,24 @@ export class TaskFormComponent {
       assignee: task.assignee,
       dueDate: task.dueDate ? new Date(task.dueDate) : null,
     });
-    console.log(this.taskForm)
+    console.log(this.taskForm);
   }
 
-  saveTask() {
+  editTask() {
     if (this.taskForm.valid) {
       const payload = {
         ...this.taskForm.value,
-        id: this.editingTaskId,
+        id: this.editingTaskId ,
       };
-
-      this.taskSaved.emit(payload);
+      this.taskEdited.emit(payload);
       this.close();
     }
+  }
+  addTask() {
+    if (this.taskForm.valid) {
+      this.taskAdded.emit(this.taskForm.value);
+    }
+    this.close();
   }
 
   close() {

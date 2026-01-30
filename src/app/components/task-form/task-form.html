@@ -113,7 +113,7 @@
       <p-button label="Cancel" severity="secondary" [text]="true" (click)="visible = false" />
       <p-button
         [label]="isEditMode ? 'Save Changes' : 'Create Task'"
-        (click)="saveTask()"
+        (click)="isEditMode ? editTask() : addTask()"
         [disabled]="taskForm.invalid"
       />
     </div>
