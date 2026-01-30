@@ -1,7 +1,7 @@
 <app-statistics-card [statistics]="statistics()" />
 
 <div class="mt-4">
-  <p-tabs [value]="currentTabStatus()" (valueChange)="onTabChange($event)">
+  <p-tabs [value]="currentTabStatus()" >
     <p-tablist class="mb-4 mx-3 flex">
       <p-tab (click)="onTabChange('all')">
         <div
@@ -13,7 +13,7 @@
       </p-tab>
 
       @for (tab of tabs; track tab.value) {
-        <p-tab [value]="tab.value" >
+        <p-tab [value]="tab.value"  (click)="onTabChange(tab.value)">
           <div
             class="flex align-items-center gap-2 py-2 px-3 border-round text-xs"
             [class.bg-primary]="!showAll() && currentTabStatus() === tab.value"
@@ -116,7 +116,9 @@
 
 <app-task-form
   #taskModal
-  (taskAdded)="handleAddTask($event)" (taskEdited)="handleEditTask($event)" (delete)="confirmDelete($event)"
+  (taskAdded)="handleAddTask($event)"
+  (taskEdited)="handleEditTask($event)"
+  (delete)="confirmDelete($event)"
 />
 <p-confirmDialog />
 <p-toast />

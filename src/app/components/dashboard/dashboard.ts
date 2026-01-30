@@ -112,9 +112,11 @@ export class DashboardComponent {
     this.taskService.setPriorityFilter(event.value);
   }
   onTabChange(value: string | number | undefined) {
-    if (value !== undefined) {
+    if (value === 'all') {
+      this.showAll.set(true);
+    } else if (value) {
+      this.showAll.set(false);
       this.currentTabStatus.set(value as TaskStatus);
-      this.showAll.set(value === 'all');
     }
   }
 }
