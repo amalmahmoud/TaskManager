@@ -4,9 +4,9 @@
   <div class="flex flex-column gap-1 px-3">
     @for (item of menuItems; track item.id) {
       <a
-        class="flex align-items-center gap-3 px-3 py-2 border-round cursor-pointer no-underline transition-colors transition-duration-200"
+        class="flex align-items-center gap-3 px-3 py-2 border-round cursor-pointer no-underline transition-colors transition-duration-200 text-color-secondary"
         [routerLink]="item.id"
-        routerLinkActive="bg-primary text-white shadow-md"
+        routerLinkActive="bg-primary text-white shadow-md active-tab"
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <span>
