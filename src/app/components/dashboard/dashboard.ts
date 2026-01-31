@@ -5,20 +5,18 @@ import { ChartComponent } from '../../shared/components/chart/chart';
 import { TaskService } from '../tasks/task.service';
 import { getThemeColor } from '../../shared/utilitis/theme-utilitis';
 import { Card } from 'primeng/card';
-import { RecentActivityService } from './recent-activity/recent-activity.service';
 import { TimelineModule } from 'primeng/timeline';
-import { DatePipe } from '@angular/common';
 import { AssigneeService } from '../../core/services/assignee.service';
+import { RecentActivityComponent } from './recent-activity/recent-activity';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [StatisticsComponent, ChartComponent, Card, TimelineModule,DatePipe],
+  imports: [StatisticsComponent, ChartComponent, Card, TimelineModule, RecentActivityComponent],
   templateUrl: './dashboard.html',
 })
 export class DashboardComponent {
   statistics = mock;
   taskService = inject(TaskService);
-  recentActivityService = inject(RecentActivityService);
   assigneeService = inject(AssigneeService);
   assignees = this.assigneeService.filterOptions;
   chartData = computed(() => {
