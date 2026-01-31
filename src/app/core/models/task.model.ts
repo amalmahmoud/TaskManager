@@ -42,10 +42,10 @@ export const priorities: PrioritiesModel[] = [
 ];
 
 export const ASSIGNEES: Assignee[] = [
-  { name: 'John Doe', id: 'user-001', avatar: 'JD' },
-  { name: 'Sarah Smith', id: 'user-002', avatar: 'SS' },
-  { name: 'Mike Johnson', id: 'user-003', avatar: 'MJ' },
-  { name: 'Emily Davis', id: 'user-004', avatar: 'ED' },
+  { name: 'John Doe', id: 'user-001', avatar: 'JD' , email: "john.doe@company.com"},
+  { name: 'Sarah Smith', id: 'user-002', avatar: 'SS', email:  "sarah.smith@company.com" },
+  { name: 'Mike Johnson', id: 'user-003', avatar: 'MJ', email: "mike.johnson@company.com" },
+  { name: 'Emily Davis', id: 'user-004', avatar: 'ED', email : "emily.davis@company.com" },
 ];
 
 export interface StatusModel {
