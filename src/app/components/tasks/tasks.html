@@ -14,7 +14,7 @@
   </p-iconfield>
 </div>
 <div class="mt-4">
-  <p-tabs [value]="currentTabStatus()">
+  <p-tabs [value]="currentTabStatus()" class="pb-0">
     <p-tablist class="mb-4 mx-3 flex">
       <p-tab (click)="onTabChange('all')">
         <div
@@ -93,9 +93,9 @@
               @for (status of tabs; track status) {
                 <div class="col-12 md:col-4">
                   <div
-                    class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+                    class="column-header flex align-items-center justify-content-between  px-1 border-bottom-1 surface-border"
                   >
-                    <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2">{{
+                    <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 ">{{
                       status.label | titlecase
                     }}</span>
                     <span class="count-badge text-xs">{{

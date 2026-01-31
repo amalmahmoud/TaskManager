@@ -1,7 +1,7 @@
 @if (statistics.error()) {
   <app-error-load [label]="'statistics'" (retry)="statistics.reload()" />
 } @else {
-  <div class="grid mt-2 px-3">
+  <div class="grid mt-2 px-2">
     @for (item of statistics.value()?.statistics; track item.id) {
       <div class="col-12 md:col-3">
         <app-card
