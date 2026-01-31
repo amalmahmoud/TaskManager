@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CardsListComponent } from './cards-list/cards-list';
 import { priorities, taskStatus, statusLookup, Task, TaskStatus } from '../../core/models/task.model';
 import { TaskFormComponent } from '../task-form/task-form';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { Button } from 'primeng/button';
@@ -16,6 +16,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { Avatar } from 'primeng/avatar';
 import { AssigneeService } from '../../core/services/assignee.service';
 import { ErrorLoadComponent } from '../../shared/components/error-load/error-load';
+import { NotificationService } from '../../core/services/notification.service';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.html',
@@ -39,12 +40,12 @@ import { ErrorLoadComponent } from '../../shared/components/error-load/error-loa
     Avatar,
     ErrorLoadComponent
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [ConfirmationService],
 })
 export class TasksComponent {
-  private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   private assigneeService = inject(AssigneeService);
+  private notifyService = inject(NotificationService);
   taskService = inject(TaskService);
 
   currentTabStatus = signal<TaskStatus>('todo');
@@ -65,17 +66,13 @@ export class TasksComponent {
     };
   });
 
-  private notify(severity: 'success' | 'error', summary: string, detail: string) {
-    this.messageService.add({ severity, summary, detail });
-  }
-
   handleAddTask(taskData: Task) {
     this.taskService.addNewTask(taskData).subscribe({
       next: () => {
-        this.notify('success', 'Success', 'Task added successfully');
+        this.notifyService.success('Task added successfully');
       },
       error: () => {
-        this.notify('error', 'Error', 'Task failed to be Added');
+        this.notifyService.error('Task failed to be Added');
       },
     });
   }
@@ -83,10 +80,10 @@ export class TasksComponent {
   handleEditTask(taskData: Task) {
     this.taskService.editTask(taskData).subscribe({
       next: () => {
-        this.notify('success', 'Success', 'Task edited successfully');
+        this.notifyService.success('Task edited successfully');
       },
       error: () => {
-        this.notify('error', 'Error', 'Task failed to be edited');
+        this.notifyService.error('Task failed to be edited');
       },
     });
   }
@@ -99,10 +96,10 @@ export class TasksComponent {
       accept: () => {
         this.taskService.deleteTask(task.id,task.title,task.status).subscribe({
           next: () => {
-            this.notify('success', 'Confirmed', 'Task deleted successfully');
+            this.notifyService.success('Task deleted successfully');
           },
           error: () => {
-            this.notify('error', 'Error', 'Delete task failed');
+            this.notifyService.error('Delete task failed');
           },
         });
       },

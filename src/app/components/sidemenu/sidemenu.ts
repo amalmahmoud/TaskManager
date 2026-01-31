@@ -9,6 +9,7 @@ import { Task } from '../../core/models/task.model';
 import { TaskService } from '../tasks/task.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
+import { NotificationService } from '../../core/services/notification.service';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './sidemenu.html',
@@ -18,6 +19,7 @@ import { filter, map } from 'rxjs';
 export class SideMenuComponent implements OnInit {
   private router = inject(Router);
   private taskService = inject(TaskService);
+  private notifyService = inject(NotificationService);
 
   currentUrl = toSignal(
     this.router.events.pipe(
@@ -35,13 +37,11 @@ export class SideMenuComponent implements OnInit {
 
   handleAddTask(taskData: Task) {
     this.taskService.addNewTask(taskData).subscribe({
-      next: (task) => {
-        console.log('Task added:', task);
-        //  this.notify('success', 'Success', 'Task added successfully');
+      next: () => {
+         this.notifyService.success('Task added successfully');
       },
-      error: (err) => {
-        console.error('Error adding task:', err);
-        //  this.notify('error', 'Error', 'Task failed to be Added');
+      error: () => {
+         this.notifyService.error('Task failed to be Added');
       },
     });
   }

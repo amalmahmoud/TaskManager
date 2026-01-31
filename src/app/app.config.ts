@@ -12,6 +12,7 @@ import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { MessageService } from 'primeng/api';
 const MyPreset = definePreset(Aura, {
     semantic: {
         primary: {
@@ -48,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true
-    }
+    },
+    MessageService
   ],
 };
