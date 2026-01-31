@@ -41,7 +41,7 @@ export class TaskFormComponent {
   editingTaskId: string | null = null;
   minDate: Date = new Date();
   priorities = priorities;
-  assignees = this.assigneeService.filterOptions;
+  assignees = this.assigneeService.assignees;
 
   status = taskStatus;
   constructor() {

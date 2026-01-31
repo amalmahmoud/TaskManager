@@ -32,10 +32,15 @@ app.post('/tasks', (req, res) => {
       req.body.status === 'done'
         ? new Date().toISOString() 
         : null;
-
+    const assignee = req.body.assignee ?? {
+        "name": "Unassigned",
+        "id": "unassigned",
+        "avatar": "?"
+        };
     const newTask = {
       id: `task-0${data.tasks.length + 1}`,
       ...req.body,
+      assignee,
       completedAt,
     };
 
@@ -98,8 +103,6 @@ app.delete('/tasks/:id', (req, res) => {
     if (index === -1) return res.status(404).json({ message: 'Task not found' });
 
      const deletedTask = data.tasks.splice(index, 1)[0];
-
-    res.json({ message: 'Task deleted', task: deletedTask });
 
     data.meta = {
       totalCount: data.tasks.length,
