@@ -6,25 +6,29 @@
 
   <div class="flex flex-column gap-3">
     @for (user of assignees(); track user.id) {
-      <div class="flex align-items-center justify-content-between p-2 border-round hover:surface-50 transition-colors transition-duration-200">
-        
-        <div class="flex align-items-center gap-3">
-          <p-avatar 
-            [label]="user.avatar" 
-            shape="circle" 
-            size="normal" 
-            class="text-primary shadow-1" />
-          
+      <div
+        class="flex flex-column md:flex-row align-items-center justify-content-center md:justify-content-between p-2 border-round hover:surface-50 transition-colors transition-duration-200 gap-3 md:gap-0"
+      >
+        <div class="flex flex-column md:flex-row align-items-center text-center md:text-left gap-3">
+          <p-avatar
+            [label]="user.avatar"
+            shape="circle"
+            size="normal"
+            class="bg-primary-50 text-primary shadow-1"
+          />
           <div class="flex flex-column">
             <span class="text-900 font-semibold line-height-2">{{ user.name }}</span>
             <span class="text-500 text-sm">{{ user.email || 'No email provided' }}</span>
           </div>
         </div>
 
-        <p-button 
-          label="Assign Task" 
-          styleClass="p-button-rounded p-button-text p-button-sm" 
-          size="small" />
+        <p-button  
+          label="Assign Task"
+          [text]="true"
+          [rounded]="true"
+          size="small"
+          class="w-full md:w-auto text-center"
+        />
       </div>
 
       @if (!$last) {

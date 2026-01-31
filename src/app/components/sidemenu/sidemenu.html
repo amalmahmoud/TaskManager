@@ -1,10 +1,12 @@
 <aside
-  class="sidebar h-screen flex flex-column justify-content-between py-4 border-right-1 surface-border bg-white w-16rem"
+  class="sidebar h-screen flex flex-column justify-content-between py-4 border-right-1 surface-border bg-white transition-width transition-duration-300"
+  [ngClass]="{ 'w-18rem': !layoutService.isMobile(), 'w-5rem': layoutService.isMobile() }"
 >
   <div class="flex flex-column gap-1 px-3">
-    @for (item of menuItems; track item.id) {
+    @for (item of menuItems(); track item.id) {
       <a
-        class="flex align-items-center gap-3 px-3 py-2 border-round cursor-pointer no-underline transition-colors transition-duration-200 text-color-secondary"
+        class="flex align-items-center px-3 py-2 border-round cursor-pointer no-underline transition-colors transition-duration-200 text-color-secondary"
+        [ngClass]="layoutService.isMobile() ? 'justify-content-center' : 'gap-3'"
         [routerLink]="item.id"
         routerLinkActive="bg-primary text-white shadow-md active-tab"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -12,13 +14,18 @@
         <span>
           <img [src]="item.icon" alt="" />
         </span>
-        <span class="font-medium">{{ item.label }}</span>
+        
+        @if (!layoutService.isMobile()) {
+          <span class="font-medium fadein animation-duration-200">{{ item.label }}</span>
+        }
       </a>
     }
-    <div class="mt-4">
+
+    <div class="mt-4 flex justify-content-center">
       <p-button
-        label="+ New Task"
+        [label]="layoutService.isMobile()? '+' : '+ New Task'"
         styleClass="w-full py-2 font-semibold text-sm shadow-1"
+        class="w-full"
         severity="primary"
         (click)="taskModal.showDialog()"
       >
@@ -26,5 +33,4 @@
     </div>
   </div>
 </aside>
-
 <app-task-form #taskModal (taskAdded)="handleAddTask($event)" />

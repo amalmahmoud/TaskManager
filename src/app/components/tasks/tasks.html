@@ -1,16 +1,17 @@
-<div class="flex-grow-1 flex justify-content-center mt-3">
-  <p-iconField iconPosition="left">
-    <p-inputIcon>
+<div class="flex-grow-1 flex justify-content-center mt-3 px-3">
+  <p-iconfield iconPosition="left" class="w-full max-w-30rem">
+    <p-inputicon>
       <img src="assets/icons/search.svg" alt="search" class="searchicon" />
-    </p-inputIcon>
+    </p-inputicon>
+
     <input
       type="text"
       pInputText
       placeholder="Search tasks..."
-      class="w-20rem md:w-30rem border-round-xl border-gray"
-      (input)="onSearch($event)"
+      class="w-full border-round-xl border-gray p-component p-inputtext"
+      style="height: 45px"
     />
-  </p-iconField>
+  </p-iconfield>
 </div>
 <div class="mt-4">
   <p-tabs [value]="currentTabStatus()">

@@ -2,8 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { Card } from 'primeng/card';
 import { ChartComponent } from '../../../shared/components/chart/chart';
 import { TaskService } from '../../tasks/task.service';
-import { getThemeColor } from '../../../shared/utilitis/theme-utilitis';
-import { statusLookup } from '../../../core/models/task.model';
+import { priorityLookup, statusLookup } from '../../../core/models/task.model';
 
 @Component({
   selector: 'app-task-analysis',
@@ -37,11 +36,7 @@ export class TaskAnalysisComponent {
         {
           label: 'Priority Distribution',
           data: Object.values(priorityCounts),
-          backgroundColor: [
-            getThemeColor('--priority-high'),
-            getThemeColor('--priority-medium'),
-            getThemeColor('--priority-low'),
-          ],
+          backgroundColor: Object.keys(priorityCounts).map(key => priorityLookup[key].color),
           hoverOffset: 4,
         },
       ],

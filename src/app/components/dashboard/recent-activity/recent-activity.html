@@ -6,7 +6,7 @@
         style="display: block; max-height: 450px; overflow-y: auto; overflow-x: hidden"
         class="pr-3 custom-scrollbar"
       >
-        <p-timeline [value]="recentActivityService.history()" align="alternate">
+        <p-timeline [value]="recentActivityService.history()" [align]="layoutService.isMobile() ? 'left' : 'alternate'">
           <ng-template pTemplate="marker" let-event>
             <span
               class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1"

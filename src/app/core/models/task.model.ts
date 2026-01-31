@@ -1,3 +1,5 @@
+import { getThemeColor } from "../../shared/utilitis/theme-utilitis";
+
 export type TaskPriority = 'high' | 'medium' | 'low';
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
 export interface Assignee {
@@ -33,12 +35,13 @@ interface MetaData {
 export interface PrioritiesModel {
   label: string;
   value: string;
+  color: string;
 }
 
 export const priorities: PrioritiesModel[] = [
-  { label: 'Low', value: 'low' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'High', value: 'high' },
+  { label: 'Low', value: 'low' , color:  getThemeColor('--priority-low')},
+  { label: 'Medium', value: 'medium' , color:getThemeColor('--priority-medium')},
+  { label: 'High', value: 'high', color: getThemeColor('--priority-high') },
 ];
 
 export const ASSIGNEES: Assignee[] = [
@@ -66,4 +69,8 @@ export interface TaskGroups {
 
 export const statusLookup: Record<string, StatusModel> = Object.fromEntries(
   taskStatus.map((tab) => [tab.value, tab]),
+);
+
+export const priorityLookup: Record<string, PrioritiesModel> = Object.fromEntries(
+  priorities.map((tab) => [tab.value, tab]),
 );
