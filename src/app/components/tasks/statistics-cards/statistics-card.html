@@ -1,5 +1,5 @@
 <div class="grid mt-2 px-3">
-  @for (stat of statistics(); track stat.id) {
+  @for (stat of statistics; track stat.id) {
     <div class="col-12 md:col-3">
       <app-card
         [title]="stat.title"
