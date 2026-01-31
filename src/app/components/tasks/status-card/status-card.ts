@@ -30,7 +30,6 @@ export class StatusCardComponent {
   protected readonly severityMap = SEVERITY_MAP;
 
   editTask() {
-    console.log('Edit task:', this.task().id);
     this.edit.emit(this.task());
   }
 

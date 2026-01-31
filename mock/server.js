@@ -8,13 +8,15 @@ const PORT = 3000;
 
 app.use(express.json());
 const tasksFile = path.join(__dirname, 'tasks.json');
+const statisticsFile = path.join(__dirname, 'statistics.json');
+
 const readJson = (filePath) => JSON.parse(fs.readFileSync(filePath, 'utf8'));
 const writeJson = (filePath, data) =>
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 
 app.get('/tasks', (req, res) => {
   try {
-    const tasks = JSON.parse(fs.readFileSync('./tasks.json', 'utf8'));
+    const tasks = readJson(tasksFile);
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ message: 'Failed to read tasks.json' });
@@ -110,6 +112,15 @@ app.delete('/tasks/:id', (req, res) => {
   } catch (err) {
     console.error('Failed updating tasks.json:', err);
     res.status(500).json({ message: 'Failed to update tasks.json' });
+  }
+});
+
+app.get('/statistics', (req, res) => {
+  try {
+    const statistics = readJson(statisticsFile);
+    res.json(statistics);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to read statistics.json' });
   }
 });
 

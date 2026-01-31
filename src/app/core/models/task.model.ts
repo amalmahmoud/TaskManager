@@ -52,22 +52,7 @@ export interface StatusModel {
   label: string;
   value: TaskStatus;
 }
-export const status: StatusModel[] = [
-  {
-    label: 'TO DO',
-    value: 'todo',
-  },
-  {
-    label: 'IN PROGRESS',
-    value: 'in_progress',
-  },
-  {
-    label: 'DONE',
-    value: 'done',
-  },
-];
-
-export const tabsData: StatusModel[] = [
+export const taskStatus: StatusModel[] = [
   { label: 'To Do', value: 'todo' },
   { label: 'In Progress', value: 'in_progress' },
   { label: 'Done', value: 'done' },
@@ -80,5 +65,5 @@ export interface TaskGroups {
 }
 
 export const statusLookup: Record<string, StatusModel> = Object.fromEntries(
-  tabsData.map((tab) => [tab.value, tab]),
+  taskStatus.map((tab) => [tab.value, tab]),
 );

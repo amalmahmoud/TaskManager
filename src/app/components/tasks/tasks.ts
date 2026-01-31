@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Tab, TabList, TabPanels, Tabs } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
 import { CardsListComponent } from './cards-list/cards-list';
-import { priorities, tabsData, statusLookup, Task, TaskStatus } from '../../core/models/task.model';
+import { priorities, taskStatus, statusLookup, Task, TaskStatus } from '../../core/models/task.model';
 import { TaskFormComponent } from '../task-form/task-form';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -10,12 +10,12 @@ import { Toast } from 'primeng/toast';
 import { Button } from 'primeng/button';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TaskService } from './task.service';
-import { mock, Statistic } from '../../shared/components/card/card.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { Avatar } from 'primeng/avatar';
 import { AssigneeService } from '../../core/services/assignee.service';
+import { ErrorLoadComponent } from '../../shared/components/error-load/error-load';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.html',
@@ -36,7 +36,8 @@ import { AssigneeService } from '../../core/services/assignee.service';
     InputTextModule,
     IconFieldModule,
     InputIconModule,
-    Avatar
+    Avatar,
+    ErrorLoadComponent
   ],
   providers: [MessageService, ConfirmationService],
 })
@@ -46,9 +47,8 @@ export class TasksComponent {
   private assigneeService = inject(AssigneeService);
   taskService = inject(TaskService);
 
-  statistics = signal<Statistic[]>([]);
   currentTabStatus = signal<TaskStatus>('todo');
-  tabs = tabsData;
+  tabs = taskStatus;
   tabsLookup = statusLookup;
 
   showAll = signal<boolean>(true);
@@ -64,10 +64,6 @@ export class TasksComponent {
       done: tasks.filter((t) => t.status === 'done'),
     };
   });
-
-  ngOnInit() {
-    this.statistics.set(mock);
-  }
 
   private notify(severity: 'success' | 'error', summary: string, detail: string) {
     this.messageService.add({ severity, summary, detail });

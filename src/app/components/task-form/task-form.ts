@@ -8,7 +8,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AvatarModule } from 'primeng/avatar';
-import { priorities, status, Task } from '../../core/models/task.model';
+import { priorities, taskStatus, Task } from '../../core/models/task.model';
 import { FormErrorComponent } from '../../shared/components/form-error/form-error';
 import { englishOnlyValidator, futureDateValidator } from '../../shared/utilitis/validators-utilitis';
 import { AssigneeService } from '../../core/services/assignee.service';
@@ -43,7 +43,7 @@ export class TaskFormComponent {
   priorities = priorities;
   assignees = this.assigneeService.filterOptions;
 
-  status = status;
+  status = taskStatus;
   constructor() {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, englishOnlyValidator()]],

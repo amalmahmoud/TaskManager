@@ -1,7 +1,6 @@
 
 export interface TaskActivity {
   id: string;
-  user: string;
   action: string;
   taskTitle: string;
   timestamp: Date;

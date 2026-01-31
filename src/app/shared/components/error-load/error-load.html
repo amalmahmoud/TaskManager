@@ -1,0 +1,20 @@
+<div class="mt-2 px-3">
+  <p-card class="col-12 shadow-1 border-1 border-50">
+    <div class="flex flex-column align-items-center justify-content-center py-5">
+      <div class="p-3 mb-3">
+        <i class="text-red-500 text-3xl"><img src="assets/icons/warning.png" alt="" /></i>
+      </div>
+
+      <h4 class="text-900 font-semibold m-0 mb-2">Unable to load {{ label() }}</h4>
+      <p class="text-600 m-0 mb-4 text-center max-w-20rem">
+        We're having trouble reaching the server. Please check your connection and try again.
+      </p>
+
+      <p-button
+        label="Try Again"
+        styleClass="p-button-outlined p-button-secondary p-button-sm"
+        (onClick)="retry.emit()"
+      />
+    </div>
+  </p-card>
+</div>

@@ -1,5 +1,5 @@
 import { Injectable, signal, effect } from '@angular/core';
-import { TaskActivity } from '../../../core/models/task-activity';
+import { TaskActivity } from '../../../core/models/task-activity.model';
 
 @Injectable({ providedIn: 'root' })
 export class RecentActivityService {
@@ -15,7 +15,6 @@ export class RecentActivityService {
   log(action: string, taskTitle: string, type: TaskActivity['type'], status: string) {
     const newEntry: TaskActivity = {
       id: crypto.randomUUID(),
-      user: 'John',
       action,
       taskTitle,
       type,

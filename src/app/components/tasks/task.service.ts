@@ -32,7 +32,6 @@ export class TaskService {
     return allTasks.filter((task: Task) => {
       const matchesSearch = !search || task.title?.toLowerCase().includes(search.toLowerCase());
       const matchesPriority = priority === 'all' || task.priority === priority;
-      console.log(assignee)
       const matchesAssignee =  !assignee  || task.assignee?.id === assignee;
       return matchesSearch && matchesPriority && matchesAssignee;
     });

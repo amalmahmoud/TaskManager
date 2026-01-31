@@ -3,6 +3,7 @@ import { Card } from 'primeng/card';
 import { ChartComponent } from '../../../shared/components/chart/chart';
 import { TaskService } from '../../tasks/task.service';
 import { getThemeColor } from '../../../shared/utilitis/theme-utilitis';
+import { statusLookup } from '../../../core/models/task.model';
 
 @Component({
   selector: 'app-task-analysis',
@@ -13,16 +14,29 @@ export class TaskAnalysisComponent {
   taskService = inject(TaskService);
   chartData = computed(() => {
     const data = this.taskService.unFilteredData();
+    if (!data || data.length === 0) {
+      return {
+        labels: ['No Data'],
+        datasets: [
+          {
+            data: [1],
+            backgroundColor: ['#E5E7EB'],
+            hoverBackgroundColor: ['#E5E7EB'],
+            borderWidth: 0,
+          },
+        ],
+      };
+    }
+   const priorityCounts = data.reduce((acc, task) => {
+    acc[task.priority] = (acc[task.priority] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
     return {
-      labels: ['High', 'Medium', 'Low'],
+      labels: Object.keys(priorityCounts).map(key => key.toUpperCase()),
       datasets: [
         {
           label: 'Priority Distribution',
-          data: [
-            data.filter((t) => t.priority === 'high').length,
-            data.filter((t) => t.priority === 'medium').length,
-            data.filter((t) => t.priority === 'low').length,
-          ],
+          data: Object.values(priorityCounts),
           backgroundColor: [
             getThemeColor('--priority-high'),
             getThemeColor('--priority-medium'),
@@ -35,17 +49,29 @@ export class TaskAnalysisComponent {
   });
 
   statusChartData = computed(() => {
-    const data = this.taskService.filteredTasks();
-    console.log(data);
+    const data = this.taskService.unFilteredData();
+    if (!data || data.length === 0) {
+      return {
+        labels: ['No Data'],
+        datasets: [
+          {
+            data: [1],
+            backgroundColor: ['#E5E7EB'],
+            hoverBackgroundColor: ['#E5E7EB'],
+            borderWidth: 0,
+          },
+        ],
+      };
+    }
+    const statusCounts = data.reduce((acc, task) => {
+    acc[task.status] = (acc[task.status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
     return {
-      labels: ['To Do', 'In Progress', 'Done'],
+      labels: Object.keys(statusCounts).map(key => statusLookup[key].label.toUpperCase()),
       datasets: [
         {
-          data: [
-            data.filter((t) => t.status === 'todo').length,
-            data.filter((t) => t.status === 'in_progress').length,
-            data.filter((t) => t.status === 'done').length,
-          ],
+          data: Object.values(statusCounts),
           backgroundColor: ['#64748b', '#3b82f6', '#22c55e'],
         },
       ],
