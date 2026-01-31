@@ -20,8 +20,8 @@ export class StatusCardComponent {
   edit = output<any>();
   delete = output<any>();
   options: MenuItem[] = [
-    { label: 'Edit', icon: 'pi pi-pencil', command: () => this.editTask() },
-    { label: 'Delete', icon: 'pi pi-trash', command: () => this.deleteTask() },
+    { label: 'Edit', command: () => this.editTask() },
+    { label: 'Delete', command: () => this.deleteTask() },
   ];
 
   overDue = computed(() => 

@@ -65,8 +65,7 @@ app.put('/tasks/:id', (req, res) => {
 
     const completedAt =
       req.body.status === 'done' && task.status !== 'done'
-        ? new Date().toISOString()
-        : task.completedAt || null;
+        ? new Date().toISOString() :  null;
 
     data.tasks[index] = {
       ...task,

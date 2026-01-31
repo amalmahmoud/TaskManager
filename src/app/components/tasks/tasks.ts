@@ -1,9 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { StatisticsComponent } from './statistics-cards/statistics-cards';
 import { Tab, TabList, TabPanels, Tabs } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
 import { CardsListComponent } from './cards-list/cards-list';
-import { priorities, tabsData, tabsLookup, Task, TaskStatus } from '../../core/models/task.model';
+import { priorities, tabsData, statusLookup, Task, TaskStatus } from '../../core/models/task.model';
 import { TaskFormComponent } from '../task-form/task-form';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -12,14 +11,15 @@ import { Button } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { TaskService } from './task.service';
 import { mock, Statistic } from '../../shared/components/card/card.model';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
   standalone: true,
   imports: [
-    StatisticsComponent,
     TabPanels,
     TabList,
     Tab,
@@ -30,7 +30,10 @@ import { mock, Statistic } from '../../shared/components/card/card.model';
     ConfirmDialog,
     Toast,
     Button,
-    SelectModule
+    SelectModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
   ],
   providers: [MessageService, ConfirmationService],
 })
@@ -41,7 +44,7 @@ export class TasksComponent {
   statistics = signal<Statistic[]>([]);
   currentTabStatus = signal<TaskStatus>('todo');
   tabs = tabsData;
-  tabsLookup = tabsLookup;
+  tabsLookup = statusLookup;
 
   showAll = signal<boolean>(true);
   priorities = priorities;
@@ -64,7 +67,6 @@ export class TasksComponent {
   }
 
   handleAddTask(taskData: Task) {
-    console.log(taskData);
     this.taskService.addNewTask(taskData).subscribe({
       next: () => {
         this.notify('success', 'Success', 'Task added successfully');
@@ -76,7 +78,6 @@ export class TasksComponent {
   }
 
   handleEditTask(taskData: Task) {
-    console.log(taskData);
     this.taskService.editTask(taskData).subscribe({
       next: () => {
         this.notify('success', 'Success', 'Task edited successfully');
@@ -87,14 +88,13 @@ export class TasksComponent {
     });
   }
 
-  confirmDelete(task: any) {
+  confirmDelete(task: Task) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this task?',
       header: 'Delete Confirmation',
-      icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
-        this.taskService.deleteTask(task.id).subscribe({
+        this.taskService.deleteTask(task.id,task.title,task.status).subscribe({
           next: () => {
             this.notify('success', 'Confirmed', 'Task deleted successfully');
           },
@@ -116,5 +116,9 @@ export class TasksComponent {
       this.showAll.set(false);
       this.currentTabStatus.set(value as TaskStatus);
     }
+  }
+    onSearch(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.taskService.searchQuery.set(value);
   }
 }

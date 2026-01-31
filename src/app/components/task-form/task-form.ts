@@ -30,7 +30,6 @@ import { englishOnlyValidator, futureDateValidator } from '../../shared/utilitis
   templateUrl: './task-form.html',
 })
 export class TaskFormComponent {
-  taskToEdit = input<any>();
   visible: boolean = false;
   taskForm: FormGroup;
   isEditMode: boolean = false;
@@ -48,7 +47,7 @@ export class TaskFormComponent {
       status: ['', Validators.required],
       priority: ['', Validators.required],
       dueDate: [null, [Validators.required, futureDateValidator()]],
-      assignee: [null, Validators.required],
+      assignee: [null],
     });
     this.minDate.setHours(0, 0, 0, 0);
   }

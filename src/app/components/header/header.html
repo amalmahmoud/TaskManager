@@ -6,27 +6,14 @@
       class="bg-primary border-round flex align-items-center justify-content-center"
       style="width: 32px; height: 32px"
     >
-      <i> <img src="assets/icons/logo.png" alt="" /></i>
+      <i> <img src="assets/icons/logo.png" alt="logo" /></i>
     </div>
     <span class="text-xl font-bold text-900 text-primary">Task Manager</span>
   </div>
 
-  <div class="flex-grow-1 flex justify-content-center">
-    <p-iconField iconPosition="left">
-      <p-inputIcon class="pi pi-search"> </p-inputIcon>
-      <input
-        type="text"
-        pInputText
-        placeholder="Search tasks..."
-        class="w-20rem md:w-30rem border-round-xl border-gray"
-        (input)="onSearch($event)"
-      />
-    </p-iconField>
-  </div>
-
   <div class="flex align-items-center gap-3">
     <p-button [rounded]="true" [text]="true" severity="secondary">
-      <img src="assets/icons/bell.png" width="20" height="20" />
+      <img src="assets/icons/bell.png" width="20" height="20"  alt="bellicon"/>
     </p-button>
 
     <p-avatar label="JD" shape="circle" class="bg-primary text-white font-bold" />

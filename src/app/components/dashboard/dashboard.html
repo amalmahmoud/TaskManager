@@ -1,0 +1,57 @@
+<app-statistics-card [statistics]="statistics" />
+
+<p-card class="m-2">
+  <div class="mt-2">
+    <h3 class="text-primary text-700">Task Analytics</h3>
+    <div class="flex justify-content-center gap-4 mt-5">
+      <div class="text-center">
+        <h5>By Priority</h5>
+        <app-chart [type]="'pie'" [data]="chartData()"></app-chart>
+      </div>
+      <div class="text-center">
+        <h5>By Status</h5>
+        <app-chart [type]="'pie'" [data]="statusChartData()"></app-chart>
+      </div>
+    </div>
+  </div>
+</p-card>
+
+<div>
+  <p-card >
+        <h3 class="text-primary text-700">Recent Activity</h3>
+
+    @if (recentActivityService.history().length > 0) {
+      <div
+        style="display: block; max-height: 450px; overflow-y: auto; overflow-x: hidden"
+        class="pr-3 custom-scrollbar"
+      >
+        <p-timeline [value]="recentActivityService.history()" align="alternate">
+          <ng-template pTemplate="marker" let-event>
+            <span
+              class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1"
+              [style.background-color]="event.color || '#3B82F6'"
+            >
+            </span>
+          </ng-template>
+
+          <ng-template pTemplate="content" let-event>
+            <p-card class="mb-3">
+              <ng-template pTemplate="header">
+                <div class="px-3 pt-3 font-bold text-sm">{{ event.action }}</div>
+              </ng-template>
+              <p class="m-0 text-sm">Task: {{ event.taskTitle }}</p>
+              <small class="text-color-secondary">{{ event.timestamp | date: 'medium' }}</small>
+            </p-card>
+          </ng-template>
+        </p-timeline>
+      </div>
+    } @else {
+      <div class="flex flex-column align-items-center justify-content-center py-8 text-center">
+        <h4 class="m-0 text-slate-900 font-bold">No activity yet</h4>
+        <p class="text-sm text-slate-500 mt-2 px-4">
+          When you create or update tasks, your activity for this session will appear here.
+        </p>
+      </div>
+    }
+  </p-card>
+</div>

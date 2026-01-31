@@ -16,7 +16,7 @@ export function futureDateValidator(): ValidatorFn {
 export function englishOnlyValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
-    const regex = /^[A-Za-z\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|`~-]*$/;
+    const regex = /^[A-Za-z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|`~-]*$/;
     return regex.test(control.value) ? null : { englishOnly: true };
   };
 }

@@ -1,5 +1,4 @@
 @use 'colors' as *;
-@import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 
 .medium-icon {
@@ -31,4 +30,15 @@
 body .p-tablist-active-bar {
     display: none !important;
     height: 0 !important;
+}
+
+div::-webkit-scrollbar {
+  width: 6px;
+}
+div::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+div::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
 }

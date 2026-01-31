@@ -4,3 +4,9 @@ $color-orange: rgba(245, 124, 0, 1);
 $color-red: rgba(211, 47, 47, 1);
 $color-light-red: rgba(255, 235, 238, 1);
 $color-beige: rgba(255, 243, 224, 1);
+
+:root {
+  --priority-high: #{$color-red};
+  --priority-medium: #{$color-orange};
+  --priority-low: #{$color-green};
+}

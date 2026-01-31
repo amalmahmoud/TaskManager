@@ -3,20 +3,17 @@
 >
   <div class="flex flex-column gap-1 px-3">
     @for (item of menuItems; track item.id) {
-      <div
-        (click)="selectTab(item.id)"
-        class="flex align-items-center gap-3 px-3 py-2 border-round cursor-pointer transition-colors transition-duration-200"
-        [ngClass]="
-          activeTab() === item.id
-            ? 'bg-primary text-primary-contrast shadow-2'
-            : 'text-600 hover:surface-100'
-        "
+      <a
+        class="flex align-items-center gap-3 px-3 py-2 border-round cursor-pointer no-underline transition-colors transition-duration-200"
+        [routerLink]="item.id"
+        routerLinkActive="bg-primary text-white shadow-md"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <span>
           <img [src]="item.icon" alt="" />
         </span>
         <span class="font-medium">{{ item.label }}</span>
-      </div>
+      </a>
     }
     <div class="mt-4">
       <p-button

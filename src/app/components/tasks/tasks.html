@@ -1,7 +1,22 @@
-<app-statistics-card [statistics]="statistics()" />
+<!-- <app-statistics-card [statistics]="statistics()" /> -->
 
+<div class="flex-grow-1 flex justify-content-center mt-3">
+  <p-iconField iconPosition="left">
+    <p-inputIcon>
+      <img src="assets/icons/search.svg" alt="search" class="searchicon"
+    />
+    </p-inputIcon>
+    <input
+      type="text"
+      pInputText
+      placeholder="Search tasks..."
+      class="w-20rem md:w-30rem border-round-xl border-gray"
+      (input)="onSearch($event)"
+    />
+  </p-iconField>
+</div>
 <div class="mt-4">
-  <p-tabs [value]="currentTabStatus()" >
+  <p-tabs [value]="currentTabStatus()">
     <p-tablist class="mb-4 mx-3 flex">
       <p-tab (click)="onTabChange('all')">
         <div
@@ -13,7 +28,7 @@
       </p-tab>
 
       @for (tab of tabs; track tab.value) {
-        <p-tab [value]="tab.value"  (click)="onTabChange(tab.value)">
+        <p-tab [value]="tab.value" (click)="onTabChange(tab.value)">
           <div
             class="flex align-items-center gap-2 py-2 px-3 border-round text-xs"
             [class.bg-primary]="!showAll() && currentTabStatus() === tab.value"
@@ -51,61 +66,57 @@
     </p-tablist>
 
     <p-tabpanels class="bg-gray-50">
-        @if (showAll()) {
-          @if (taskService.filteredTasks().length === 0) {
-            <div class="text-center p-5 text-500">
-              <i class="pi pi-filter-slash text-2xl mb-2"></i>
-              <p>No tasks found for this category or priority.</p>
-            </div>
-          } @else {
-            <div class="grid mt-2 px-3 bg-white border-round">
-              @for (status of tabs; track status) {
-                <div class="col-12 md:col-4">
-                  <div
-                    class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
-                  >
-                    <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2">{{
-                      status.label | titlecase
-                    }}</span>
-                    <span class="count-badge text-xs">{{
-                      allTaskData()[status.value].length
-                    }}</span>
-                  </div>
-                  <app-cards-list
-                    [tasks]="allTaskData()[status.value]"
-                    (edit)="taskModal.openEdit($event)"
-                    (delete)="confirmDelete($event)"
-                  />
-                </div>
-              }
-            </div>
-          }
+      @if (showAll()) {
+        @if (taskService.filteredTasks().length === 0) {
+          <div class="text-center p-5 text-500">
+            <p>No tasks found for this category or priority.</p>
+          </div>
         } @else {
-          @if (allTaskData()[currentTabStatus()].length === 0) {
-            <div class="text-center p-5 text-500">
-              <i class="pi pi-filter-slash text-2xl mb-2"></i>
-              <p>No tasks found for this category or priority.</p>
-            </div>
-          } @else {
-            <div class="p-3 bg-white border-round">
-              <div
-                class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
-              >
-                <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2">{{
-                  tabsLookup[currentTabStatus()]?.label | titlecase
-                }}</span>
-                <span class="count-badge text-xs">{{
-                  allTaskData()[currentTabStatus()].length
-                }}</span>
+          <div class="grid mt-2 px-3 bg-white border-round">
+            @for (status of tabs; track status) {
+              <div class="col-12 md:col-4">
+                <div
+                  class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+                >
+                  <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2">{{
+                    status.label | titlecase
+                  }}</span>
+                  <span class="count-badge text-xs">{{ allTaskData()[status.value].length }}</span>
+                </div>
+                <app-cards-list
+                  [tasks]="allTaskData()[status.value]"
+                  (edit)="taskModal.openEdit($event)"
+                  (delete)="confirmDelete($event)"
+                />
               </div>
-              <app-cards-list
-                [tasks]="allTaskData()[currentTabStatus()]"
-                (edit)="taskModal.openEdit($event)"
-                (delete)="confirmDelete($event)"
-              />
-            </div>
-          }
+            }
+          </div>
         }
+      } @else {
+        @if (allTaskData()[currentTabStatus()].length === 0) {
+          <div class="text-center p-5 text-500">
+            <p>No tasks found for this category or priority.</p>
+          </div>
+        } @else {
+          <div class="p-3 bg-white border-round">
+            <div
+              class="column-header flex align-items-center justify-content-between mb-3 px-1 border-bottom-1 surface-border"
+            >
+              <span class="font-bold text-700 uppercase tracking-wider text-xs mt-3 mb-2">{{
+                tabsLookup[currentTabStatus()]?.label | titlecase
+              }}</span>
+              <span class="count-badge text-xs">{{
+                allTaskData()[currentTabStatus()].length
+              }}</span>
+            </div>
+            <app-cards-list
+              [tasks]="allTaskData()[currentTabStatus()]"
+              (edit)="taskModal.openEdit($event)"
+              (delete)="confirmDelete($event)"
+            />
+          </div>
+        }
+      }
     </p-tabpanels>
   </p-tabs>
 </div>
@@ -114,7 +125,6 @@
   #taskModal
   (taskAdded)="handleAddTask($event)"
   (taskEdited)="handleEditTask($event)"
-  (delete)="confirmDelete($event)"
 />
 <p-confirmDialog />
 <p-toast />

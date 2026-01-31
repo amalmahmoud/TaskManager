@@ -4,18 +4,23 @@ import { LayoutComponent } from './components/layout/layout';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'dashboard'
-  },
-  {
-    path: '',
     component: LayoutComponent,
     children: [
       {
+        path: '', 
+        pathMatch: 'full', 
+        redirectTo: 'dashboard' 
+      },
+      {
+        path: 'dashboard',
+        title: 'Dashboard | Task Manager',
+        loadComponent: () => import('./components/dashboard/dashboard').then(m => m.DashboardComponent),
+      },
+      {
         path: 'tasks',
-        loadComponent: () =>
-          import('./components/tasks/tasks').then((c) => c.TasksComponent),
+        title: 'Tasks | Task Manager',
+        loadComponent: () => import('./components/tasks/tasks').then(m => m.TasksComponent),
       },
     ],
-  },
+  }
 ];

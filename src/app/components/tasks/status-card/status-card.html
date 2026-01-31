@@ -8,14 +8,9 @@
     </span>
 
     <div>
-      <p-button
-        icon="pi pi-ellipsis-v"
-        [text]="true"
-        [rounded]="true"
-        severity="secondary"
-        styleClass="p-0 w-2rem h-2rem"
-        (click)="menu.toggle($event)"
-      />
+      <p-button (click)="menu.toggle($event)" styleClass="p-button-text">
+        <img src="assets/icons/threedots.svg" class="w-10 h-10 icon-slate-500" alt="options" />
+      </p-button>
       <p-menu #menu [model]="options" [popup]="true" appendTo="body" />
     </div>
   </div>

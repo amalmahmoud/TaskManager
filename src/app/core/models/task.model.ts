@@ -28,13 +28,12 @@ export interface TaskResponse {
 export interface PrioritiesModel {
   label: string;
   value: string;
-  icon: string;
 }
 
 export const priorities: PrioritiesModel[] = [
-  { label: 'Low', value: 'low', icon: 'pi pi-circle-fill low-icon' },
-  { label: 'Medium', value: 'medium', icon: 'pi pi-circle-fill medium-icon ' },
-  { label: 'High', value: 'high', icon: 'pi pi-circle-fill high-icon' },
+  { label: 'Low', value: 'low' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'High', value: 'high' },
 ];
 
 export const assignees: Assignee[] = [
@@ -75,6 +74,6 @@ export const tabsData: StatusModel[] = [
   done: Task[];
 }
 
-export const tabsLookup: Record<string, StatusModel> = Object.fromEntries(
+export const statusLookup: Record<string, StatusModel> = Object.fromEntries(
   tabsData.map(tab => [tab.value, tab])
 );
