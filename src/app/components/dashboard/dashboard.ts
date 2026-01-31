@@ -5,10 +5,10 @@ import { ChartComponent } from '../../shared/components/chart/chart';
 import { TaskService } from '../tasks/task.service';
 import { getThemeColor } from '../../shared/utilitis/theme-utilitis';
 import { Card } from 'primeng/card';
-import { assignees } from '../../core/models/task.model';
 import { RecentActivityService } from './recent-activity/recent-activity.service';
 import { TimelineModule } from 'primeng/timeline';
 import { DatePipe } from '@angular/common';
+import { AssigneeService } from '../../core/services/assignee.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -19,8 +19,8 @@ export class DashboardComponent {
   statistics = mock;
   taskService = inject(TaskService);
   recentActivityService = inject(RecentActivityService);
-  assignees = assignees;
-  events: any;
+  assigneeService = inject(AssigneeService);
+  assignees = this.assigneeService.filterOptions;
   chartData = computed(() => {
     const data = this.taskService.unFilteredData();
     return {
@@ -61,27 +61,4 @@ export class DashboardComponent {
       ],
     };
   });
-
-  constructor() {
-    this.events = [
-      {
-        status: 'Ordered',
-        date: '15/10/2020 10:30',
-        icon: 'pi pi-shopping-cart',
-        color: '#9C27B0',
-        image: 'game-controller.jpg',
-      },
-      { status: 'Processing', date: '15/10/2020 14:00', icon: 'pi pi-cog', color: '#673AB7' },
-      {
-        status: 'Shipped',
-        date: '15/10/2020 16:15',
-        icon: 'pi pi-shopping-cart',
-        color: '#FF9800',
-      },
-      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B' },
-      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B' },
-
-      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B' },
-    ];
-  }
 }

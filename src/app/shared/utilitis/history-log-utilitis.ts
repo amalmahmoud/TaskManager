@@ -15,6 +15,6 @@ import { statusLookup, Task } from "../../core/models/task.model";
     if (oldTask.title !== newTask.title) return `Changed title to ${newTask.title}`;
     if (oldTask.description !== newTask.description)
       return `Changed description to ${newTask.description}`;
-
+    
     return 'Edited task info';
   }

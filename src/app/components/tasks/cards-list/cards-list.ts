@@ -10,6 +10,6 @@ import { StatusCardComponent } from '../status-card/status-card';
 })
 export class CardsListComponent {
   tasks = input<Task[]>();
-  edit = output<any>();
-  delete = output<any>();
+  edit = output<Task>();
+  delete = output<Task>();
 }

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
@@ -8,9 +8,10 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { AvatarModule } from 'primeng/avatar';
-import { assignees, priorities, status } from '../../core/models/task.model';
+import { priorities, status, Task } from '../../core/models/task.model';
 import { FormErrorComponent } from '../../shared/components/form-error/form-error';
 import { englishOnlyValidator, futureDateValidator } from '../../shared/utilitis/validators-utilitis';
+import { AssigneeService } from '../../core/services/assignee.service';
 
 @Component({
   selector: 'app-task-form',
@@ -30,17 +31,20 @@ import { englishOnlyValidator, futureDateValidator } from '../../shared/utilitis
   templateUrl: './task-form.html',
 })
 export class TaskFormComponent {
+  private fb = inject(FormBuilder);
+  private assigneeService = inject(AssigneeService);
   visible: boolean = false;
   taskForm: FormGroup;
   isEditMode: boolean = false;
-  taskAdded = output<any>();
-  taskEdited = output<any>();
-  editingTaskId: number | null = null;
+  taskAdded = output<Task>();
+  taskEdited = output<Task>();
+  editingTaskId: string | null = null;
   minDate: Date = new Date();
   priorities = priorities;
-  assignees = assignees;
+  assignees = this.assigneeService.filterOptions;
+
   status = status;
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, englishOnlyValidator()]],
       description: ['', [Validators.maxLength(100), englishOnlyValidator()]],
@@ -59,7 +63,7 @@ export class TaskFormComponent {
     }
   }
 
-  openEdit(task: any) {
+  openEdit(task: Task) {
     this.isEditMode = true;
     this.editingTaskId = task.id;
     this.visible = true;
@@ -69,7 +73,6 @@ export class TaskFormComponent {
       assignee: task.assignee,
       dueDate: task.dueDate ? new Date(task.dueDate) : null,
     });
-    console.log(this.taskForm);
   }
 
   editTask() {

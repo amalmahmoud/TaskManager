@@ -8,12 +8,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { Button } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
+import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TaskService } from './task.service';
 import { mock, Statistic } from '../../shared/components/card/card.model';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { Avatar } from 'primeng/avatar';
+import { AssigneeService } from '../../core/services/assignee.service';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.html',
@@ -34,13 +36,16 @@ import { InputIconModule } from 'primeng/inputicon';
     InputTextModule,
     IconFieldModule,
     InputIconModule,
+    Avatar
   ],
   providers: [MessageService, ConfirmationService],
 })
 export class TasksComponent {
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
-  public taskService = inject(TaskService);
+  private assigneeService = inject(AssigneeService);
+  taskService = inject(TaskService);
+
   statistics = signal<Statistic[]>([]);
   currentTabStatus = signal<TaskStatus>('todo');
   tabs = tabsData;
@@ -48,6 +53,8 @@ export class TasksComponent {
 
   showAll = signal<boolean>(true);
   priorities = priorities;
+
+  assigneesFilterOptions = this.assigneeService.filterOptions;
   allTaskData = computed(() => {
     const tasks = this.taskService.filteredTasks();
 
@@ -106,8 +113,13 @@ export class TasksComponent {
     });
   }
 
-  onPriorityFilter(event: any) {
-    this.taskService.setPriorityFilter(event.value);
+  onPriorityFilter(priority: SelectChangeEvent) {
+    this.taskService.setPriorityFilter(priority.value);
+  }
+
+  onAssigneeFilter(assignee:SelectChangeEvent)
+  {
+    this.taskService.setAssigneeFilter(assignee.value);
   }
   onTabChange(value: string | number | undefined) {
     if (value === 'all') {

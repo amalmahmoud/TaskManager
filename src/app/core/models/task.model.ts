@@ -23,7 +23,12 @@ export interface Task {
 }
 export interface TaskResponse {
   tasks: Task[];
-  meta: any;
+  meta: MetaData;
+}
+
+interface MetaData {
+  totalCount: number;
+  lastUpdated: string;
 }
 export interface PrioritiesModel {
   label: string;
@@ -36,7 +41,7 @@ export const priorities: PrioritiesModel[] = [
   { label: 'High', value: 'high' },
 ];
 
-export const assignees: Assignee[] = [
+export const ASSIGNEES: Assignee[] = [
   { name: 'John Doe', id: 'user-001', avatar: 'JD' },
   { name: 'Sarah Smith', id: 'user-002', avatar: 'SS' },
   { name: 'Mike Johnson', id: 'user-003', avatar: 'MJ' },
@@ -68,12 +73,12 @@ export const tabsData: StatusModel[] = [
   { label: 'Done', value: 'done' },
 ];
 
- export interface TaskGroups {
+export interface TaskGroups {
   todo: Task[];
   in_progress: Task[];
   done: Task[];
 }
 
 export const statusLookup: Record<string, StatusModel> = Object.fromEntries(
-  tabsData.map(tab => [tab.value, tab])
+  tabsData.map((tab) => [tab.value, tab]),
 );

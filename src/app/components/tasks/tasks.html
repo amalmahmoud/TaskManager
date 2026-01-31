@@ -3,8 +3,8 @@
 <div class="flex-grow-1 flex justify-content-center mt-3">
   <p-iconField iconPosition="left">
     <p-inputIcon>
-      <img src="assets/icons/search.svg" alt="search" class="searchicon"
-    />
+      <img src="assets/icons/search.svg" alt="search" class="searchicon" 
+      />
     </p-inputIcon>
     <input
       type="text"
@@ -37,7 +37,24 @@
           </div>
         </p-tab>
       }
-      <div class="ml-auto flex align-items-center gap-3">
+      <div class="ml-auto flex align-items-center gap-2">
+        <p-select
+          [options]="assigneesFilterOptions()"
+          placeholder="Assignee"
+          optionLabel="name"
+          optionValue="id"
+          class="w-14rem"
+          appendTo="body"
+          (onChange)="onAssigneeFilter($event)"
+          [showClear]="true"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedOption>
+          <div class="flex align-items-center gap-2">
+            <p-avatar [label]="selectedOption.avatar" shape="circle" size="normal" />
+              <span>{{ selectedOption.name }}</span>
+            </div>
+          </ng-template>
+        </p-select>
         <p-select
           [options]="priorities"
           placeholder="Priority"
@@ -50,7 +67,6 @@
         >
           <ng-template pTemplate="selectedItem" let-selectedOption>
             <div class="flex align-items-center gap-2">
-              <i [class]="selectedOption.icon"></i>
               <span>{{ selectedOption.label }}</span>
             </div>
           </ng-template>

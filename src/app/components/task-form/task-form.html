@@ -92,7 +92,7 @@
     <div class="flex flex-column gap-2">
       <label class="font-semibold">Assign To</label>
       <p-select
-        [options]="assignees"
+        [options]="assignees()"
         formControlName="assignee"
         optionLabel="name"
         placeholder="Select a team member"

@@ -17,8 +17,8 @@ import { calculateDueDateStatus, SEVERITY_MAP } from '../../../shared/utilitis/g
 })
 export class StatusCardComponent {
   task = input.required<Task>();
-  edit = output<any>();
-  delete = output<any>();
+  edit = output<Task>();
+  delete = output<Task>();
   options: MenuItem[] = [
     { label: 'Edit', command: () => this.editTask() },
     { label: 'Delete', command: () => this.deleteTask() },
